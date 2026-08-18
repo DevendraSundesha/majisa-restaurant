@@ -105,13 +105,22 @@ export default function App() {
     fetch('/api/get-logo-b64').catch(() => {});
   }, []);
 
-  // Smooth Scrolling
+  // Smooth Scrolling with Mobile Menu Auto-Close & Header Offset
   const scrollToSection = (id: string) => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
-    }
     setIsMobileMenuOpen(false);
+    setTimeout(() => {
+      const el = document.getElementById(id);
+      if (el) {
+        const headerOffset = 85;
+        const elementPosition = el.getBoundingClientRect().top;
+        const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+        window.scrollTo({
+          top: Math.max(0, offsetPosition),
+          behavior: 'smooth'
+        });
+      }
+    }, 150);
   };
 
   // Secret Triple-Click on Logo Emblem to open Admin Console for Owner
