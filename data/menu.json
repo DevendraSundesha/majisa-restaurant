@@ -1,0 +1,182 @@
+[
+  {
+    "id": "1",
+    "name": "Dal Baati Churma",
+    "nameHindi": "दाल बाटी चूरमा",
+    "description": "Iconic Rajasthani platter — crispy baked wheat balls served with panchmel dal and sweet churma. The soul of Rajasthani cuisine.",
+    "price": "249",
+    "category": "main",
+    "image": "",
+    "isVeg": true
+  },
+  {
+    "id": "2",
+    "name": "Laal Maas",
+    "nameHindi": "लाल मांस",
+    "description": "Fiery Rajasthani mutton curry slow-cooked with mathania red chilies, garlic, and traditional spices.",
+    "price": "349",
+    "category": "main",
+    "image": "",
+    "isVeg": false
+  },
+  {
+    "id": "3",
+    "name": "Gatte Ki Sabzi",
+    "nameHindi": "गट्टे की सब्ज़ी",
+    "description": "Steamed gram flour dumplings simmered in a tangy yogurt-based curry with desert spices.",
+    "price": "199",
+    "category": "main",
+    "image": "",
+    "isVeg": true
+  },
+  {
+    "id": "4",
+    "name": "Ker Sangri",
+    "nameHindi": "केर सांगरी",
+    "description": "Traditional desert delicacy made with dried berries and beans, tempered with red chilies and mango powder.",
+    "price": "179",
+    "category": "main",
+    "image": "",
+    "isVeg": true
+  },
+  {
+    "id": "5",
+    "name": "Papad Ki Sabzi",
+    "nameHindi": "पापड़ की सब्ज़ी",
+    "description": "Unique Rajasthani curry made with roasted papad pieces in a spicy yogurt gravy.",
+    "price": "149",
+    "category": "main",
+    "image": "",
+    "isVeg": true
+  },
+  {
+    "id": "6",
+    "name": "Mirchi Vada",
+    "nameHindi": "मिर्ची वड़ा",
+    "description": "Jodhpur's famous street snack — large green chilies stuffed with spiced potato and deep-fried in gram flour batter.",
+    "price": "99",
+    "category": "starters",
+    "image": "",
+    "isVeg": true
+  },
+  {
+    "id": "7",
+    "name": "Pyaaz Kachori",
+    "nameHindi": "प्याज़ कचौरी",
+    "description": "Crispy, flaky pastry shells stuffed with spiced onion filling, served with tangy tamarind chutney.",
+    "price": "79",
+    "category": "starters",
+    "image": "",
+    "isVeg": true
+  },
+  {
+    "id": "8",
+    "name": "Dal Ki Pakodi",
+    "nameHindi": "दाल की पकौड़ी",
+    "description": "Crunchy lentil fritters made with moong dal and spices, a perfect tea-time snack.",
+    "price": "89",
+    "category": "starters",
+    "image": "",
+    "isVeg": true
+  },
+  {
+    "id": "9",
+    "name": "Mawa Kachori",
+    "nameHindi": "मावा कचौरी",
+    "description": "Sweet pastry filled with rich mawa (khoya) and dry fruits, drizzled with sugar syrup. A Jodhpuri specialty.",
+    "price": "69",
+    "category": "sweets",
+    "image": "",
+    "isVeg": true
+  },
+  {
+    "id": "10",
+    "name": "Ghevar",
+    "nameHindi": "घेवर",
+    "description": "Traditional Rajasthani disc-shaped sweet cake made with flour and soaked in sugar syrup, topped with rabri.",
+    "price": "129",
+    "category": "sweets",
+    "image": "",
+    "isVeg": true
+  },
+  {
+    "id": "11",
+    "name": "Malpua",
+    "nameHindi": "मालपुआ",
+    "description": "Sweet pancakes made with flour, milk, and cardamom, deep-fried and dipped in sugar syrup with rabri.",
+    "price": "99",
+    "category": "sweets",
+    "image": "",
+    "isVeg": true
+  },
+  {
+    "id": "12",
+    "name": "Churma Ladoo",
+    "nameHindi": "चूरमा लड्डू",
+    "description": "Crumbled wheat balls mixed with ghee, jaggery, and dry fruits — shaped into traditional ladoos.",
+    "price": "49",
+    "category": "sweets",
+    "image": "",
+    "isVeg": true
+  },
+  {
+    "id": "13",
+    "name": "Bajre Ki Roti",
+    "nameHindi": "बाजरे की रोटी",
+    "description": "Rustic millet flatbread cooked on an open flame, served with a generous dollop of white butter.",
+    "price": "39",
+    "category": "breads",
+    "image": "",
+    "isVeg": true
+  },
+  {
+    "id": "14",
+    "name": "Missi Roti",
+    "nameHindi": "मिस्सी रोटी",
+    "description": "Flavorful flatbread made with a mix of wheat and gram flour, seasoned with onions, green chilies, and spices.",
+    "price": "49",
+    "category": "breads",
+    "image": "",
+    "isVeg": true
+  },
+  {
+    "id": "15",
+    "name": "Masala Chai",
+    "nameHindi": "मसाला चाय",
+    "description": "Aromatic spiced tea brewed with ginger, cardamom, cloves, and fresh milk — served in a kulhad.",
+    "price": "29",
+    "category": "beverages",
+    "image": "",
+    "isVeg": true
+  },
+  {
+    "id": "16",
+    "name": "Lassi",
+    "nameHindi": "लस्सी",
+    "description": "Thick, creamy buttermilk churned with curd, served sweet or salted in a traditional matka glass.",
+    "price": "49",
+    "category": "beverages",
+    "image": "",
+    "isVeg": true
+  },
+  {
+    "id": "17",
+    "name": "Jaljeera",
+    "nameHindi": "जलजीरा",
+    "description": "Refreshing cumin-mint cooler with tamarind and black salt — the perfect Rajasthani thirst quencher.",
+    "price": "39",
+    "category": "beverages",
+    "image": "",
+    "isVeg": true
+  },
+  {
+    "id": "18",
+    "name": "Rajasthani Thali",
+    "nameHindi": "राजस्थानी थाली",
+    "description": "A grand platter featuring dal baati churma, gatte ki sabzi, ker sangri, bajre ki roti, papad, pickle, and sweet.",
+    "price": "399",
+    "category": "main",
+    "image": "",
+    "isVeg": true
+  }
+]

@@ -1,0 +1,6 @@
+{
+  "name": "Majisa Cafe & Restaurant",
+  "description": "An authentic, aesthetic, and culturally immersive Rajasthani Dhaba-style cafe & restaurant website, complete with dynamic menus, video highlights, and an owner administration dashboard.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

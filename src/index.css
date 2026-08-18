@@ -1,0 +1,89 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Marcellus&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Cinzel:wght@400;600;700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Playfair Display", Georgia, serif;
+  --font-display: "Marcellus", "Cinzel", serif;
+
+  --color-gold-50: #fef8e7;
+  --color-gold-100: #fef3c7;
+  --color-gold-200: #fcd34d;
+  --color-gold-300: #fbbf24;
+  --color-gold-400: #d97706;
+  --color-gold-500: #b45309;
+  --color-gold-600: #92400e;
+  --color-gold-700: #78350f;
+  --color-gold-800: #4d2c19;
+  --color-gold-900: #2d1b10;
+
+  --color-heritage-red: #dc2626;
+  --color-heritage-maroon: #7f1d1d;
+  --color-heritage-orange: #d97706;
+  --color-heritage-yellow: #fbbf24;
+  --color-heritage-dark: #1a0f0a;
+  --color-heritage-clay: #2d1b10;
+  --color-heritage-teal: #0d9488;
+  --color-heritage-rust: #4d2c19;
+
+  --animate-spin-slow: spin 15s linear infinite;
+  --animate-pulse-slow: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  --animate-float: float 6s ease-in-out infinite;
+}
+
+@utility text-xxs {
+  font-size: 0.6875rem;
+  line-height: 0.95rem;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+}
+
+/* Custom CSS Scrollbar & Custom Aesthetics */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #1a0f0a;
+}
+::-webkit-scrollbar-thumb {
+  background: #dc2626;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #fbbf24;
+}
+
+/* Beautiful Rajasthani Traditional Mandala Border Overlay pattern */
+.mandala-border {
+  background-image: radial-gradient(#d97706 1px, transparent 1px);
+  background-size: 24px 24px;
+}
+
+.clay-texture {
+  background-image: radial-gradient(rgba(217, 119, 6, 0.05) 1px, transparent 0);
+  background-size: 8px 8px;
+}
+
+/* Glassmorphism customized for heritage */
+.royal-glass {
+  background: rgba(45, 27, 16, 0.85);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(217, 119, 6, 0.2);
+}
+
+/* Elegant traditional borders */
+.royal-border {
+  border: 2px solid #fbbf24;
+  box-shadow: 0 0 15px rgba(251, 191, 36, 0.15);
+}
+
+.traditional-pattern {
+  background-image: repeating-linear-gradient(45deg, rgba(217, 119, 6, 0.03) 0px, rgba(217, 119, 6, 0.03) 2px, transparent 2px, transparent 10px);
+}
