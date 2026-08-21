@@ -23,6 +23,7 @@ interface AdminPanelProps {
   onDeleteMenuItem: (id: string) => Promise<void>;
   onAddHighlight: (highlight: Omit<Highlight, 'id' | 'date'>) => Promise<void>;
   onDeleteHighlight: (id: string) => Promise<void>;
+  onToggleHighlightHero?: (id: string, showInHero: boolean) => Promise<void>;
   onAddAnnouncement: (announcement: Omit<Announcement, 'id' | 'isActive' | 'date'>) => Promise<void>;
   onDeleteAnnouncement: (id: string) => Promise<void>;
   onToggleAnnouncement: (id: string) => Promise<void>;
@@ -1725,6 +1726,20 @@ export default function AdminPanel({
                     />
                   </div>
 
+                  {/* Checkbox for Hero Header */}
+                  <div className="flex items-center space-x-2 pt-1">
+                    <input
+                      type="checkbox"
+                      id="chk-show-in-hero"
+                      checked={highlightForm.showInHero || false}
+                      onChange={(e) => setHighlightForm(prev => ({ ...prev, showInHero: e.target.checked }))}
+                      className="w-4 h-4 accent-amber-500 rounded cursor-pointer"
+                    />
+                    <label htmlFor="chk-show-in-hero" className="text-xs text-gold-200 font-bold cursor-pointer">
+                      👑 ऊपर मुख्य हेडर बैनर में दिखाएं (Show in Top Hero Header Slider)
+                    </label>
+                  </div>
+
                   {/* Submit */}
                   <button
                     type="submit"
@@ -1769,11 +1784,26 @@ export default function AdminPanel({
                       </div>
 
                       <div className="mt-4 pt-3 border-t border-gold-400/10 flex items-center justify-between text-xxs text-gray-400 font-mono">
-                        <span>Added: {slide.date}</span>
+                        <div className="flex items-center space-x-2">
+                          <span>Added: {slide.date}</span>
+                          {onToggleHighlightHero && (
+                            <button
+                              type="button"
+                              onClick={() => onToggleHighlightHero(slide.id, !slide.showInHero)}
+                              className={`px-2 py-1 rounded text-xxs font-bold transition-all cursor-pointer border ${
+                                slide.showInHero
+                                  ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
+                                  : 'bg-heritage-dark text-gray-400 border-gold-400/20 hover:text-gold-200'
+                              }`}
+                            >
+                              {slide.showInHero ? '👑 Top Banner: ON' : '👑 Top Banner: OFF'}
+                            </button>
+                          )}
+                        </div>
                         <button
                           onClick={() => onDeleteHighlight(slide.id)}
                           id={`btn-del-hl-${slide.id}`}
-                          className="px-2.5 py-1.5 bg-heritage-red/20 text-red-400 border border-heritage-red/30 hover:bg-heritage-red hover:text-gold-50 rounded-lg transition-colors cursor-pointer uppercase font-bold tracking-wider font-sans"
+                          className="px-2.5 py-1.5 bg-heritage-red/20 text-red-400 border border-heritage-red/30 hover:bg-heritage-red hover:text-gold-50 rounded-lg transition-colors cursor-pointer uppercase font-bold tracking-wider font-sans ml-2"
                         >
                           Delete
                         </button>

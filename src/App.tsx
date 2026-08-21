@@ -252,6 +252,21 @@ export default function App() {
     }
   };
 
+  const handleToggleHighlightHero = async (id: string, showInHero: boolean) => {
+    try {
+      const res = await fetch(`/api/highlights/${id}`, {
+        method: 'PUT',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ showInHero })
+      });
+      if (res.ok) {
+        await fetchState();
+      }
+    } catch (err) {
+      console.error('Failed to toggle highlight hero:', err);
+    }
+  };
+
   const handleAddAnnouncement = async (newAnn: Omit<Announcement, 'id' | 'isActive' | 'date'>) => {
     try {
       const res = await fetch('/api/announcements', {
@@ -688,6 +703,7 @@ export default function App() {
               onDeleteMenuItem={handleDeleteMenuItem}
               onAddHighlight={handleAddHighlight}
               onDeleteHighlight={handleDeleteHighlight}
+              onToggleHighlightHero={handleToggleHighlightHero}
               onAddAnnouncement={handleAddAnnouncement}
               onDeleteAnnouncement={handleDeleteAnnouncement}
               onToggleAnnouncement={handleToggleAnnouncement}

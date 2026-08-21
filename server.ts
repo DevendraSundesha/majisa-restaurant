@@ -627,6 +627,7 @@ Sitemap: https://majisarestaurantbalotra.in/sitemap.xml`);
       description: req.body.description || '',
       url: req.body.url || '',
       type: req.body.type || 'image',
+      showInHero: !!req.body.showInHero,
       date: new Date().toISOString().split('T')[0]
     };
 
@@ -634,6 +635,22 @@ Sitemap: https://majisarestaurantbalotra.in/sitemap.xml`);
     db.highlights.push(newHighlight);
     writeDb(db);
     res.status(201).json(newHighlight);
+  });
+
+  app.put('/api/highlights/:id', requireAdminAuth, (req, res) => {
+    const db = readDb();
+    const { id } = req.params;
+    db.highlights = (db.highlights || []).map((item: any) => {
+      if (item.id === id) {
+        return {
+          ...item,
+          showInHero: req.body.showInHero !== undefined ? !!req.body.showInHero : item.showInHero
+        };
+      }
+      return item;
+    });
+    writeDb(db);
+    res.json({ success: true, item: (db.highlights || []).find((item: any) => item.id === id) });
   });
 
   app.delete('/api/highlights/:id', requireAdminAuth, async (req, res) => {

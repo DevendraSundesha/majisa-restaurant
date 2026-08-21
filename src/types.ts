@@ -24,6 +24,7 @@ export interface Highlight {
   url: string;
   type: 'image' | 'video';
   date: string;
+  showInHero?: boolean;
 }
 
 export interface Announcement {
