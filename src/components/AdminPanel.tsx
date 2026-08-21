@@ -49,6 +49,7 @@ export default function AdminPanel({
   onDeleteMenuItem,
   onAddHighlight,
   onDeleteHighlight,
+  onToggleHighlightHero,
   onAddAnnouncement,
   onDeleteAnnouncement,
   onToggleAnnouncement,
