@@ -46,11 +46,12 @@ export default function Hero({ highlights, onScrollToMenu, onScrollToVibe, onOpe
     }
   ];
 
-  // Top Hero section uses dedicated top header slides to keep top header and lower gallery separate
+  // Top Hero section uses user uploaded highlights and respects Top Banner ON selections
   const slides = React.useMemo(() => {
-    // If there are specific hero-tagged highlights, use them; otherwise use top hero slides
-    const heroTagged = highlights ? highlights.filter(h => h.isHero || h.showInHero) : [];
-    return heroTagged.length > 0 ? heroTagged : defaultSlides;
+    if (!highlights || highlights.length === 0) return defaultSlides;
+    // If user has explicitly enabled Top Banner: ON for specific items, use those!
+    const heroTagged = highlights.filter(h => h.showInHero);
+    return heroTagged.length > 0 ? heroTagged : highlights;
   }, [highlights]);
 
   // Auto-rotate through all uploaded slides every 6 seconds
