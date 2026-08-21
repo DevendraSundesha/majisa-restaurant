@@ -46,9 +46,11 @@ export default function Hero({ highlights, onScrollToMenu, onScrollToVibe, onOpe
     }
   ];
 
-  // Use all uploaded highlights in order (videos + photos)
+  // Top Hero section uses dedicated top header slides to keep top header and lower gallery separate
   const slides = React.useMemo(() => {
-    return highlights && highlights.length > 0 ? highlights : defaultSlides;
+    // If there are specific hero-tagged highlights, use them; otherwise use top hero slides
+    const heroTagged = highlights ? highlights.filter(h => h.isHero || h.showInHero) : [];
+    return heroTagged.length > 0 ? heroTagged : defaultSlides;
   }, [highlights]);
 
   // Auto-rotate through all uploaded slides every 6 seconds
