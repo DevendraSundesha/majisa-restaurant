@@ -46,18 +46,20 @@ export default function Hero({ highlights, onScrollToMenu, onScrollToVibe, onOpe
     }
   ];
 
-  // Limit top hero slider to max 5 slides from user uploads ("upper me 5 se jadda nhi challni chaiye")
-  const userUploadSlides = highlights.length > 0 ? [...highlights].reverse().slice(0, 5) : [];
-  const slides = userUploadSlides.length > 0 ? userUploadSlides : defaultSlides;
+  // Limit top hero slider to max 5 slides from user uploads
+  const slides = React.useMemo(() => {
+    const userUploadSlides = highlights.length > 0 ? [...highlights].reverse().slice(0, 5) : [];
+    return userUploadSlides.length > 0 ? userUploadSlides : defaultSlides;
+  }, [highlights]);
 
-  // Auto-rotate slides every 6 seconds
+  // Auto-rotate slides every 6 seconds smoothly
   useEffect(() => {
     if (slides.length <= 1) return;
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % slides.length);
     }, 6000);
     return () => clearInterval(interval);
-  }, [slides]);
+  }, [slides.length]);
 
   const activeSlide = slides[activeIndex] || defaultSlides[0];
 
