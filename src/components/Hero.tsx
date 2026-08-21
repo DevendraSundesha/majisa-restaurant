@@ -21,12 +21,16 @@ interface HeroProps {
 export default function Hero({ highlights, onScrollToMenu, onScrollToVibe, onOpenBooking, onLogoClick }: HeroProps) {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // Top Hero section uses user uploaded highlights and respects Top Banner ON selections
+  // Top Hero section uses user uploaded highlights and respects Top Banner ON selections strictly
   const slides = React.useMemo(() => {
     if (!highlights || highlights.length === 0) return [];
-    // If user has explicitly enabled Top Banner: ON for specific items, use those!
-    const heroTagged = highlights.filter(h => h.showInHero);
-    return heroTagged.length > 0 ? heroTagged : highlights;
+    // If user has explicitly enabled Top Banner: ON for specific item(s), use ONLY those items!
+    const heroTagged = highlights.filter(h => h.showInHero === true);
+    if (heroTagged.length > 0) {
+      return heroTagged;
+    }
+    // If all items are OFF, show only the 1st item statically (no automatic rotation)
+    return [highlights[0]];
   }, [highlights]);
 
   // Auto-rotate through all uploaded slides every 6 seconds
