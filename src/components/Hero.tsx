@@ -46,13 +46,12 @@ export default function Hero({ highlights, onScrollToMenu, onScrollToVibe, onOpe
     }
   ];
 
-  // Limit top hero slider to max 5 slides from user uploads
+  // Use all uploaded highlights in order (videos + photos)
   const slides = React.useMemo(() => {
-    const userUploadSlides = highlights.length > 0 ? [...highlights].reverse().slice(0, 5) : [];
-    return userUploadSlides.length > 0 ? userUploadSlides : defaultSlides;
+    return highlights && highlights.length > 0 ? highlights : defaultSlides;
   }, [highlights]);
 
-  // Auto-rotate slides every 6 seconds smoothly
+  // Auto-rotate through all uploaded slides every 6 seconds
   useEffect(() => {
     if (slides.length <= 1) return;
     const interval = setInterval(() => {
@@ -62,6 +61,20 @@ export default function Hero({ highlights, onScrollToMenu, onScrollToVibe, onOpe
   }, [slides.length]);
 
   const activeSlide = slides[activeIndex] || defaultSlides[0];
+
+  // Helper to detect video item
+  const isSlideVideo = (slide: any) => {
+    if (!slide) return false;
+    if (slide.type === 'video') return true;
+    if (!slide.url) return false;
+    const urlLower = slide.url.toLowerCase();
+    return (
+      urlLower.includes('.mp4') ||
+      urlLower.includes('.webm') ||
+      urlLower.includes('.mov') ||
+      urlLower.includes('/video/upload/')
+    );
+  };
 
   return (
     <div className="relative min-h-[92vh] flex items-center justify-center overflow-hidden bg-heritage-dark" id="home">
@@ -76,57 +89,28 @@ export default function Hero({ highlights, onScrollToMenu, onScrollToVibe, onOpe
             transition={{ duration: 1.2, ease: "easeInOut" }}
             className="absolute inset-0 w-full h-full"
           >
-            {/* Ambient Dark Overlay Gradients to keep text highly legible and punchy */}
+            {/* Ambient Dark Overlay Gradients */}
             <div className="absolute inset-0 bg-gradient-to-t from-heritage-dark via-heritage-dark/60 to-transparent z-10" />
             <div className="absolute inset-0 bg-gradient-to-r from-heritage-dark/80 via-transparent to-heritage-dark/40 z-10" />
             <div className="absolute inset-0 bg-heritage-maroon/15 z-10 mix-blend-overlay" />
 
-            {/* Check if video or image */}
-            {activeSlide.type === 'video' ? (
-              // HTML5 Direct Video playing or fallback Unsplash
-              activeSlide.url.endsWith('.mp4') || activeSlide.url.includes('video') ? (
-                <video
-                  src={activeSlide.url}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover scale-105"
-                />
-              ) : (
-                // If it is a youtube or other link, we can embed it, but often an Unsplash visual background works best with a mock play button on top
-                <div className="w-full h-full relative">
-                  <img
-                    src={activeSlide.url || "https://images.unsplash.com/photo-1585938338990-d2242b512995?auto=format&fit=crop&w=1600&q=80"}
-                    alt={activeSlide.title ? `${activeSlide.title} - Majisa Restaurant Balotra` : "Majisa Restaurant (Desi Dhaba) Balotra"}
-                    referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover animate-[zoom_20s_infinite_alternate]"
-                  />
-                  {/* YouTube background iframe layer as enhancement if it has youtube ID */}
-                  {activeSlide.url.includes('youtube.com') || activeSlide.url.includes('youtu.be') ? (
-                    <div className="absolute inset-0 pointer-events-none opacity-40">
-                      {/* Standard youtube embed with background loop params */}
-                      <iframe
-                        src={`${activeSlide.url.replace('watch?v=', 'embed/')}?autoplay=1&mute=1&controls=0&loop=1&playlist=${activeSlide.url.split('v=')[1] || ''}&showinfo=0&rel=0`}
-                        title="Background Video"
-                        className="w-full h-full object-cover scale-110 pointer-events-none"
-                        frameBorder="0"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                      />
-                    </div>
-                  ) : null}
-                </div>
-              )
+            {/* Render Video or Image based on uploaded type */}
+            {isSlideVideo(activeSlide) ? (
+              <video
+                src={activeSlide.url}
+                autoPlay
+                muted
+                loop
+                playsInline
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover scale-105"
+              />
             ) : (
               <img
-                src={activeSlide.url}
+                src={activeSlide.url || "https://images.unsplash.com/photo-1585938338990-d2242b512995?auto=format&fit=crop&w=1600&q=80"}
                 alt={activeSlide.title ? `${activeSlide.title} - Majisa Restaurant Balotra` : "Majisa Restaurant (Desi Dhaba) Balotra"}
                 referrerPolicy="no-referrer"
-                className="w-full h-full object-cover"
-                style={{
-                  animation: "kenburns 25s ease-out infinite alternate"
-                }}
+                className="w-full h-full object-cover animate-[zoom_20s_infinite_alternate]"
               />
             )}
           </motion.div>
