@@ -21,34 +21,9 @@ interface HeroProps {
 export default function Hero({ highlights, onScrollToMenu, onScrollToVibe, onOpenBooking, onLogoClick }: HeroProps) {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  // Fallback default slides in case highlights database is loading or empty
-  const defaultSlides = [
-    {
-      id: "def-1",
-      title: "Majisa Cafe & Restaurant",
-      description: "Bringing you the authentic, rustic flavors of Rajasthani highway dhabas with royal Rajputana hospitality.",
-      url: "https://images.unsplash.com/photo-1585938338990-d2242b512995?auto=format&fit=crop&w=1600&q=80",
-      type: "image"
-    },
-    {
-      id: "def-2",
-      title: "Royal Marwari Thali",
-      description: "A rich feast of Dal Baati Churma, Ker Sangri, and Gatte ki Sabji crafted by ancestral masterchefs.",
-      url: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?auto=format&fit=crop&w=1600&q=80",
-      type: "image"
-    },
-    {
-      id: "def-3",
-      title: "Rustic Earthen Sitting & Pure Ghee Delicacies",
-      description: "Sit on traditional Charpais and relish piping-hot Bajra Roti & Dal Baati cooked on authentic firewood Chulhas with 100% pure cow ghee.",
-      url: "https://images.unsplash.com/photo-1605152276897-4f618f831968?auto=format&fit=crop&w=1600&q=80",
-      type: "image"
-    }
-  ];
-
   // Top Hero section uses user uploaded highlights and respects Top Banner ON selections
   const slides = React.useMemo(() => {
-    if (!highlights || highlights.length === 0) return defaultSlides;
+    if (!highlights || highlights.length === 0) return [];
     // If user has explicitly enabled Top Banner: ON for specific items, use those!
     const heroTagged = highlights.filter(h => h.showInHero);
     return heroTagged.length > 0 ? heroTagged : highlights;
@@ -63,7 +38,7 @@ export default function Hero({ highlights, onScrollToMenu, onScrollToVibe, onOpe
     return () => clearInterval(interval);
   }, [slides.length]);
 
-  const activeSlide = slides[activeIndex] || defaultSlides[0];
+  const activeSlide = slides.length > 0 ? (slides[activeIndex] || slides[0]) : null;
 
   // Helper to detect video item
   const isSlideVideo = (slide: any) => {
@@ -173,25 +148,29 @@ export default function Hero({ highlights, onScrollToMenu, onScrollToVibe, onOpe
           </motion.p>
         </div>
 
-        {/* Slide Specific Dynamic Title & Description */}
-        <div className="max-w-2xl mx-auto min-h-[90px] mb-10">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={activeIndex}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              className="text-center"
-            >
-              <h2 className="text-lg sm:text-xl font-medium text-heritage-yellow mb-2 drop-shadow-md uppercase tracking-widest">
-                {(!activeSlide.title || activeSlide.title.startsWith('THUMB') || !isNaN(Number(activeSlide.title))) ? "माजीसा स्पेशल हिलाइट्स • Majisa Highlight" : activeSlide.title}
-              </h2>
-              <p className="text-sm sm:text-base text-gray-200 leading-relaxed drop-shadow-sm font-sans px-4">
-                {activeSlide.description}
-              </p>
-            </motion.div>
-          </AnimatePresence>
-        </div>
+        {/* Slide Specific Dynamic Title & Description (Only shown if user uploaded description) */}
+        {activeSlide && activeSlide.description ? (
+          <div className="max-w-2xl mx-auto min-h-[50px] mb-8">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeIndex}
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="text-center"
+              >
+                {activeSlide.title && !activeSlide.title.startsWith('THUMB') && isNaN(Number(activeSlide.title)) ? (
+                  <h2 className="text-lg sm:text-xl font-medium text-heritage-yellow mb-1 drop-shadow-md uppercase tracking-widest">
+                    {activeSlide.title}
+                  </h2>
+                ) : null}
+                <p className="text-sm sm:text-base text-gold-200 leading-relaxed drop-shadow-sm font-sans px-4">
+                  {activeSlide.description}
+                </p>
+              </motion.div>
+            </AnimatePresence>
+          </div>
+        ) : null}
 
         {/* Call to Actions (Interactive 3D Hover Buttons) */}
         <motion.div
