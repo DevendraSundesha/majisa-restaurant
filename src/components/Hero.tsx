@@ -171,7 +171,7 @@ export default function Hero({ highlights, onScrollToMenu, onScrollToVibe, onOpe
           >
             माजीसा कैफे <span className="text-heritage-orange">&amp;</span> रेस्टोरेंट
             <span className="block text-xl sm:text-3xl md:text-4xl text-gold-300 font-serif font-normal mt-2">
-              Majisa Restaurant – Desi Dhaba in Balotra
+              Majisa Restaurant (Desi Dhaba) – Balotra
             </span>
           </motion.h1>
           <motion.p
