@@ -7,7 +7,7 @@ interface LogoProps {
 
 export const LOGO_BASE64 = "/logo.png";
 
-export default function Logo({ className = "w-12 h-12", alt = "Majisa Restaurant Logo" }: LogoProps) {
+export default function Logo({ className = "w-12 h-12", alt = "Majisa Restaurant (Desi Dhaba) Balotra Logo" }: LogoProps) {
   return (
     <img
       src="/logo.png"

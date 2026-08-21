@@ -218,7 +218,7 @@ export default function MenuSection({ menuItems, isAdmin, onDeleteMenuItem, onTo
                   {/* Item Image */}
                   <img
                     src={item.image}
-                    alt={item.name}
+                    alt={`${item.name} (${item.hindiName}) - Majisa Restaurant Balotra`}
                     referrerPolicy="no-referrer"
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />

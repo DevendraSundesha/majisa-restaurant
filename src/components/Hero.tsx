@@ -97,7 +97,7 @@ export default function Hero({ highlights, onScrollToMenu, onScrollToVibe, onOpe
                 <div className="w-full h-full relative">
                   <img
                     src={activeSlide.url || "https://images.unsplash.com/photo-1585938338990-d2242b512995?auto=format&fit=crop&w=1600&q=80"}
-                    alt={activeSlide.title}
+                    alt={activeSlide.title ? `${activeSlide.title} - Majisa Restaurant Balotra` : "Majisa Restaurant (Desi Dhaba) Balotra"}
                     referrerPolicy="no-referrer"
                     className="w-full h-full object-cover animate-[zoom_20s_infinite_alternate]"
                   />
@@ -119,7 +119,7 @@ export default function Hero({ highlights, onScrollToMenu, onScrollToVibe, onOpe
             ) : (
               <img
                 src={activeSlide.url}
-                alt={activeSlide.title}
+                alt={activeSlide.title ? `${activeSlide.title} - Majisa Restaurant Balotra` : "Majisa Restaurant (Desi Dhaba) Balotra"}
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover"
                 style={{
@@ -169,15 +169,18 @@ export default function Hero({ highlights, onScrollToMenu, onScrollToVibe, onOpe
             transition={{ duration: 0.8 }}
             className="font-display text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-gold-100 leading-tight drop-shadow-xl"
           >
-            माजीसा कैफे <span className="text-heritage-orange">&</span> रेस्टोरेंट
+            माजीसा कैफे <span className="text-heritage-orange">&amp;</span> रेस्टोरेंट
+            <span className="block text-xl sm:text-3xl md:text-4xl text-gold-300 font-serif font-normal mt-2">
+              Majisa Restaurant – Desi Dhaba in Balotra
+            </span>
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.4 }}
-            className="font-serif italic text-lg sm:text-2xl text-gold-300 mt-2 tracking-wide drop-shadow"
+            className="font-serif italic text-lg sm:text-xl text-gold-200 mt-3 tracking-wide drop-shadow"
           >
-            "Majisa Cafe and Restaurant" — Pure Desi Dhaba Culture
+            Authentic Rajasthani Pure Veg Food &amp; Royal Marwari Hospitality
           </motion.p>
         </div>
 
