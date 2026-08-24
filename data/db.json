@@ -2179,6 +2179,7 @@
       "description": "Majisa Restaurant & Dhaba Video Highlight",
       "url": "https://res.cloudinary.com/majisa-restaurent/video/upload/v1785309103/js2bw1yxrvjjei7vrnl1.mp4",
       "type": "video",
+      "showInHero": false,
       "date": "2026-07-29"
     },
     {
@@ -2187,6 +2188,7 @@
       "description": "Majisa Restaurant & Dhaba Video Highlight",
       "url": "https://res.cloudinary.com/majisa-restaurent/image/upload/v1785330703/ldheycfjv4ij8ilfw5yp.jpg",
       "type": "image",
+      "showInHero": false,
       "date": "2026-07-29"
     },
     {
@@ -2195,6 +2197,7 @@
       "description": "Majisa Restaurant & Dhaba Video Highlight",
       "url": "https://res.cloudinary.com/majisa-restaurent/image/upload/v1785330916/hqzan6y9nle8pmxjfonj.jpg",
       "type": "image",
+      "showInHero": true,
       "date": "2026-07-29"
     },
     {
@@ -2203,6 +2206,7 @@
       "description": "Majisa Restaurant & Dhaba Video Highlight",
       "url": "https://res.cloudinary.com/majisa-restaurent/image/upload/v1785330932/dfehpsxx1taag0lg1v12.jpg",
       "type": "image",
+      "showInHero": false,
       "date": "2026-07-29"
     },
     {
@@ -2211,6 +2215,7 @@
       "description": "Majisa Restaurant & Dhaba Video Highlight",
       "url": "https://res.cloudinary.com/majisa-restaurent/video/upload/v1785331152/eyiedrgur5jqbq7vczxf.mp4",
       "type": "video",
+      "showInHero": false,
       "date": "2026-07-29"
     }
   ],

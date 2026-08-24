@@ -267,6 +267,21 @@ export default function App() {
     }
   };
 
+  const handleUpdateHighlightsBatch = async (updatedHighlights: Highlight[]) => {
+    try {
+      const res = await fetch('/api/highlights/bulk', {
+        method: 'PUT',
+        headers: getAuthHeaders(),
+        body: JSON.stringify({ highlights: updatedHighlights })
+      });
+      if (res.ok) {
+        await fetchState();
+      }
+    } catch (err) {
+      console.error('Failed to batch update highlights:', err);
+    }
+  };
+
   const handleAddAnnouncement = async (newAnn: Omit<Announcement, 'id' | 'isActive' | 'date'>) => {
     try {
       const res = await fetch('/api/announcements', {
@@ -704,6 +719,7 @@ export default function App() {
               onAddHighlight={handleAddHighlight}
               onDeleteHighlight={handleDeleteHighlight}
               onToggleHighlightHero={handleToggleHighlightHero}
+              onUpdateHighlightsBatch={handleUpdateHighlightsBatch}
               onAddAnnouncement={handleAddAnnouncement}
               onDeleteAnnouncement={handleDeleteAnnouncement}
               onToggleAnnouncement={handleToggleAnnouncement}

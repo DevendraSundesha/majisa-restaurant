@@ -637,6 +637,34 @@ Sitemap: https://majisarestaurantbalotra.in/sitemap.xml`);
     res.status(201).json(newHighlight);
   });
 
+  app.put('/api/highlights/bulk', requireAdminAuth, (req, res) => {
+    const db = readDb();
+    const updated = req.body.highlights;
+    if (Array.isArray(updated)) {
+      db.highlights = updated.map((item: any) => ({
+        ...item,
+        showInHero: Boolean(item.showInHero)
+      }));
+      writeDb(db);
+      return res.json({ success: true, highlights: db.highlights });
+    }
+    return res.status(400).json({ error: 'Invalid highlights array' });
+  });
+
+  app.put('/api/highlights', requireAdminAuth, (req, res) => {
+    const db = readDb();
+    const updated = req.body.highlights || req.body;
+    if (Array.isArray(updated)) {
+      db.highlights = updated.map((item: any) => ({
+        ...item,
+        showInHero: Boolean(item.showInHero)
+      }));
+      writeDb(db);
+      return res.json({ success: true, highlights: db.highlights });
+    }
+    return res.status(400).json({ error: 'Invalid highlights array' });
+  });
+
   app.put('/api/highlights/:id', requireAdminAuth, (req, res) => {
     const db = readDb();
     const { id } = req.params;
@@ -644,7 +672,7 @@ Sitemap: https://majisarestaurantbalotra.in/sitemap.xml`);
       if (item.id === id) {
         return {
           ...item,
-          showInHero: req.body.showInHero !== undefined ? !!req.body.showInHero : item.showInHero
+          showInHero: req.body.showInHero !== undefined ? Boolean(req.body.showInHero) : Boolean(item.showInHero)
         };
       }
       return item;

@@ -24,6 +24,7 @@ interface AdminPanelProps {
   onAddHighlight: (highlight: Omit<Highlight, 'id' | 'date'>) => Promise<void>;
   onDeleteHighlight: (id: string) => Promise<void>;
   onToggleHighlightHero?: (id: string, showInHero: boolean) => Promise<void>;
+  onUpdateHighlightsBatch?: (updatedHighlights: Highlight[]) => Promise<void>;
   onAddAnnouncement: (announcement: Omit<Announcement, 'id' | 'isActive' | 'date'>) => Promise<void>;
   onDeleteAnnouncement: (id: string) => Promise<void>;
   onToggleAnnouncement: (id: string) => Promise<void>;
@@ -50,6 +51,7 @@ export default function AdminPanel({
   onAddHighlight,
   onDeleteHighlight,
   onToggleHighlightHero,
+  onUpdateHighlightsBatch,
   onAddAnnouncement,
   onDeleteAnnouncement,
   onToggleAnnouncement,
@@ -98,6 +100,49 @@ export default function AdminPanel({
   const [activeTab, setActiveTab] = useState<'menu' | 'highlights' | 'announcements' | 'seasonal' | 'vibe' | 'bookings' | 'analytics' | 'vip_whatsapp' | 'security'>('menu');
   const [bookingFilter, setBookingFilter] = useState<'all' | 'pending' | 'confirmed' | 'cancelled'>('all');
   const [customerSearch, setCustomerSearch] = useState('');
+
+  // Local Highlights ON/OFF Banner State & Instant Save Handler
+  const [localHighlights, setLocalHighlights] = useState<Highlight[]>(highlights);
+  const [bannerSaveSuccessMsg, setBannerSaveSuccessMsg] = useState('');
+  const [isSavingHighlights, setIsSavingHighlights] = useState(false);
+
+  React.useEffect(() => {
+    if (Array.isArray(highlights)) {
+      setLocalHighlights(highlights.map(h => ({
+        ...h,
+        showInHero: Boolean(h.showInHero)
+      })));
+    }
+  }, [highlights]);
+
+  const handleToggleLocalHero = (id: string) => {
+    setLocalHighlights(prev => prev.map(h => {
+      if (h.id === id) {
+        return { ...h, showInHero: !Boolean(h.showInHero) };
+      }
+      return h;
+    }));
+  };
+
+  const handleSaveBannerSettings = async () => {
+    setIsSavingHighlights(true);
+    setBannerSaveSuccessMsg('');
+    try {
+      if (onUpdateHighlightsBatch) {
+        await onUpdateHighlightsBatch(localHighlights);
+      } else if (onToggleHighlightHero) {
+        for (const item of localHighlights) {
+          await onToggleHighlightHero(item.id, Boolean(item.showInHero));
+        }
+      }
+      setBannerSaveSuccessMsg('✓ मुख्य बैनर की ON/OFF सेटिंग्स सफलतापूर्वक सहेज ली गई हैं और मुख्य पृष्ठ पर तुरंत लागू हो गई हैं!');
+      setTimeout(() => setBannerSaveSuccessMsg(''), 5000);
+    } catch (err) {
+      console.error('Save banner settings failed:', err);
+    } finally {
+      setIsSavingHighlights(false);
+    }
+  };
 
   // Change PIN State
   const [currentPinInput, setCurrentPinInput] = useState('');
@@ -1752,65 +1797,124 @@ export default function AdminPanel({
                 </form>
               </div>
 
-              {/* Active Highlights list */}
-              <div className="bg-heritage-clay/60 border border-gold-400/15 rounded-2xl p-6">
-                <h3 className="font-display text-lg font-bold text-gold-100 mb-4 pb-2 border-b border-gold-400/10">
-                  वर्तमान सक्रिय गैलरी / होम स्लाइडर
-                </h3>
+              {/* Active Highlights list with Save Button */}
+              <div className="bg-heritage-clay/60 border border-gold-400/15 rounded-2xl p-6 sm:p-8 space-y-6">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-4 border-b border-gold-400/10">
+                  <div>
+                    <h3 className="font-display text-lg sm:text-xl font-bold text-gold-100 flex items-center gap-2">
+                      <Sparkles className="w-5 h-5 text-amber-400" />
+                      <span>वर्तमान गैलरी व मुख्य हेडर बैनर प्रबंधन ({localHighlights.filter(h => Boolean(h.showInHero)).length} / {localHighlights.length} Active ON)</span>
+                    </h3>
+                    <p className="text-xs text-gold-300/80 font-serif mt-1">
+                      नीचे अपनी पसंद की फोटो/वीडियो को ON या OFF करें और <strong className="text-emerald-400">"परिवर्तन सहेजें & तुरंत लागू करें"</strong> बटन पर क्लिक करें। केवल ON रखी गई फोटो/वीडियो ही मुख्य पृष्ठ (Hero Banner) पर दिखेंगी।
+                    </p>
+                  </div>
+
+                  <button
+                    type="button"
+                    id="btn-save-banner-settings-top"
+                    onClick={handleSaveBannerSettings}
+                    disabled={isSavingHighlights}
+                    className="px-6 py-3 bg-gradient-to-r from-emerald-600 via-emerald-500 to-emerald-600 hover:from-emerald-500 hover:to-emerald-400 text-white font-bold rounded-xl shadow-[0_4px_25px_rgba(16,185,129,0.4)] border border-emerald-300/60 flex items-center justify-center gap-2.5 text-xs sm:text-sm transition-all active:scale-98 cursor-pointer disabled:opacity-50 shrink-0"
+                  >
+                    <CheckCircle2 className="w-5 h-5 text-white animate-bounce" />
+                    <span>{isSavingHighlights ? 'सहेजा जा रहा है...' : '💾 परिवर्तन सहेजें & तुरंत लागू करें'}</span>
+                  </button>
+                </div>
+
+                {bannerSaveSuccessMsg && (
+                  <div className="p-4 rounded-xl bg-emerald-950/90 border border-emerald-500/60 text-emerald-300 font-bold text-xs sm:text-sm flex items-center gap-3 shadow-lg">
+                    <CheckCircle2 className="w-6 h-6 text-emerald-400 shrink-0" />
+                    <span>{bannerSaveSuccessMsg}</span>
+                  </div>
+                )}
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  {highlights.map((slide) => (
-                    <div key={slide.id} className="p-4 rounded-xl bg-heritage-dark border border-gold-400/10 flex flex-col justify-between">
-                      <div>
-                        {/* Preview Asset */}
-                        <div className="h-32 rounded-lg bg-heritage-clay overflow-hidden relative border border-gold-400/10 mb-3">
-                          {slide.type === 'video' ? (
-                            <div className="w-full h-full flex items-center justify-center bg-heritage-maroon/20">
-                              <FileVideo className="w-10 h-10 text-heritage-yellow animate-pulse" />
-                            </div>
-                          ) : (
-                            <img
-                              src={slide.url}
-                              alt={slide.title}
-                              referrerPolicy="no-referrer"
-                              className="w-full h-full object-cover"
-                            />
-                          )}
-                          <span className="absolute top-2 right-2 px-2 py-0.5 rounded text-xxs font-mono bg-heritage-clay text-gold-300 border border-gold-400/25 uppercase">
-                            {slide.type}
-                          </span>
+                  {localHighlights.map((slide) => {
+                    const isON = Boolean(slide.showInHero);
+                    return (
+                      <div key={slide.id} className={`p-4 rounded-xl bg-heritage-dark border transition-all flex flex-col justify-between ${
+                        isON ? 'border-amber-500/60 shadow-[0_0_20px_rgba(245,158,11,0.2)] bg-amber-950/20' : 'border-gold-400/10 opacity-75'
+                      }`}>
+                        <div>
+                          {/* Preview Asset */}
+                          <div className="h-36 rounded-lg bg-heritage-clay overflow-hidden relative border border-gold-400/10 mb-3">
+                            {slide.type === 'video' ? (
+                              <div className="w-full h-full flex items-center justify-center bg-heritage-maroon/20">
+                                <FileVideo className="w-12 h-12 text-heritage-yellow animate-pulse" />
+                              </div>
+                            ) : (
+                              <img
+                                src={slide.url}
+                                alt={slide.title}
+                                referrerPolicy="no-referrer"
+                                className="w-full h-full object-cover"
+                              />
+                            )}
+                            <span className="absolute top-2 right-2 px-2 py-0.5 rounded text-xxs font-mono bg-heritage-clay/90 text-gold-300 border border-gold-400/25 uppercase font-bold">
+                              {slide.type === 'video' ? '📹 VIDEO' : '🖼️ IMAGE'}
+                            </span>
+                            <span className={`absolute top-2 left-2 px-2.5 py-0.5 rounded-full text-xxs font-bold uppercase tracking-wider ${
+                              isON ? 'bg-amber-500 text-amber-950 shadow' : 'bg-black/70 text-gray-400 border border-gray-600'
+                            }`}>
+                              {isON ? '👑 Top Banner: ON' : '👑 Top Banner: OFF'}
+                            </span>
+                          </div>
+                          <h4 className="font-bold text-gold-100 text-sm flex items-center justify-between">
+                            <span>{slide.title}</span>
+                          </h4>
+                          <p className="text-xxs text-gray-400 mt-1 line-clamp-2">{slide.description}</p>
                         </div>
-                        <h4 className="font-bold text-gold-100 text-sm">{slide.title}</h4>
-                        <p className="text-xxs text-gray-400 mt-1 line-clamp-2">{slide.description}</p>
-                      </div>
 
-                      <div className="mt-4 pt-3 border-t border-gold-400/10 flex items-center justify-between text-xxs text-gray-400 font-mono">
-                        <div className="flex items-center space-x-2">
-                          <span>Added: {slide.date}</span>
-                          {onToggleHighlightHero && (
-                            <button
-                              type="button"
-                              onClick={() => onToggleHighlightHero(slide.id, !slide.showInHero)}
-                              className={`px-2 py-1 rounded text-xxs font-bold transition-all cursor-pointer border ${
-                                slide.showInHero
-                                  ? 'bg-amber-500/20 text-amber-300 border-amber-500/40'
-                                  : 'bg-heritage-dark text-gray-400 border-gold-400/20 hover:text-gold-200'
-                              }`}
-                            >
-                              {slide.showInHero ? '👑 Top Banner: ON' : '👑 Top Banner: OFF'}
-                            </button>
-                          )}
+                        <div className="mt-4 pt-3 border-t border-gold-400/10 flex items-center justify-between text-xxs text-gray-400 font-mono gap-2">
+                          <button
+                            type="button"
+                            onClick={() => handleToggleLocalHero(slide.id)}
+                            id={`btn-toggle-hero-${slide.id}`}
+                            className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer border flex items-center gap-1.5 ${
+                              isON
+                                ? 'bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-amber-950 border-amber-300 shadow-[0_2px_10px_rgba(245,158,11,0.4)]'
+                                : 'bg-heritage-dark text-gray-400 border-gold-400/20 hover:border-gold-400/40 hover:text-gold-200'
+                            }`}
+                          >
+                            {isON ? (
+                              <>
+                                <Eye className="w-4 h-4 text-amber-950" />
+                                <span>👑 Top Banner: ON (चालू)</span>
+                              </>
+                            ) : (
+                              <>
+                                <EyeOff className="w-4 h-4 text-gray-400" />
+                                <span>👑 Top Banner: OFF (बंद)</span>
+                              </>
+                            )}
+                          </button>
+
+                          <button
+                            onClick={() => onDeleteHighlight(slide.id)}
+                            id={`btn-del-hl-${slide.id}`}
+                            className="px-2.5 py-1.5 bg-heritage-red/20 text-red-400 border border-heritage-red/30 hover:bg-heritage-red hover:text-gold-50 rounded-lg transition-colors cursor-pointer uppercase font-bold tracking-wider font-sans shrink-0"
+                          >
+                            Delete
+                          </button>
                         </div>
-                        <button
-                          onClick={() => onDeleteHighlight(slide.id)}
-                          id={`btn-del-hl-${slide.id}`}
-                          className="px-2.5 py-1.5 bg-heritage-red/20 text-red-400 border border-heritage-red/30 hover:bg-heritage-red hover:text-gold-50 rounded-lg transition-colors cursor-pointer uppercase font-bold tracking-wider font-sans ml-2"
-                        >
-                          Delete
-                        </button>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
+                </div>
+
+                {/* Bottom Save Button */}
+                <div className="pt-4 border-t border-gold-400/10 flex justify-end">
+                  <button
+                    type="button"
+                    id="btn-save-banner-settings-bottom"
+                    onClick={handleSaveBannerSettings}
+                    disabled={isSavingHighlights}
+                    className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-emerald-600 via-emerald-500 to-emerald-600 hover:from-emerald-500 hover:to-emerald-400 text-white font-bold rounded-xl shadow-[0_4px_25px_rgba(16,185,129,0.4)] border border-emerald-300/60 flex items-center justify-center gap-2 text-xs sm:text-sm transition-all active:scale-98 cursor-pointer disabled:opacity-50"
+                  >
+                    <CheckCircle2 className="w-5 h-5 text-white" />
+                    <span>{isSavingHighlights ? 'सहेजा जा रहा है...' : '💾 परिवर्तन सहेजें & तुरंत लागू करें • Save Changes'}</span>
+                  </button>
                 </div>
               </div>
             </div>
