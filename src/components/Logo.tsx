@@ -7,11 +7,12 @@ interface LogoProps {
 
 export const LOGO_BASE64 = "/logo.png";
 
-export default function Logo({ className = "w-12 h-12", alt = "Majisa Restaurant (Desi Dhaba) Balotra Logo" }: LogoProps) {
+export default function Logo({ className = "w-12 h-12", alt = "Majisa Balotra - Majisa Restaurant Balotra (Desi Dhaba) Logo" }: LogoProps) {
   return (
     <img
       src="/logo.png"
       alt={alt}
+      loading="eager"
       className={`object-contain inline-block ${className}`}
     />
   );

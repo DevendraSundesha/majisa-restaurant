@@ -182,6 +182,17 @@ async function startServer() {
     res.status(404).send('Logo not found');
   });
 
+  // SEO Technical Essentials: Robots.txt & Sitemap.xml Routes
+  app.get('/robots.txt', (req, res) => {
+    res.type('text/plain');
+    res.sendFile(path.join(process.cwd(), 'public/robots.txt'));
+  });
+
+  app.get('/sitemap.xml', (req, res) => {
+    res.type('application/xml');
+    res.sendFile(path.join(process.cwd(), 'public/sitemap.xml'));
+  });
+
   // DB Path resolution (placed outside src/ so Vite watcher does NOT reload browser on write)
   const dbPath = path.join(process.cwd(), 'data/db.json');
   const legacyDbPath = path.join(process.cwd(), 'src/data/db.json');

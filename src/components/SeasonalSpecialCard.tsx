@@ -75,7 +75,8 @@ export default function SeasonalSpecialCard({ special, isAdmin, onOpenAdmin }: S
         <div className="md:col-span-5 relative aspect-[4/3] md:aspect-auto md:min-h-[380px] overflow-hidden bg-[#150f0c]">
           <img
             src={special.image || "https://images.unsplash.com/photo-1589301760014-d929f3979dbc?auto=format&fit=crop&w=800&q=80"}
-            alt={special.title}
+            alt={`${special.title} - Majisa Restaurant Balotra Best Food`}
+            loading="lazy"
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover transition-transform duration-1000 hover:scale-105"
           />

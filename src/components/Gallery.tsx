@@ -163,7 +163,8 @@ export default function Gallery({ highlights }: GalleryProps) {
                   ) : (
                     <img
                       src={item.url}
-                      alt={item.title ? `${item.title} - Majisa Restaurant Balotra` : "Majisa Restaurant Dining & Culture in Balotra"}
+                      alt={item.title ? `${item.title} - Majisa Restaurant Balotra` : "Best Restaurant in Balotra - Majisa Restaurant (Desi Dhaba)"}
+                      loading="lazy"
                       referrerPolicy="no-referrer"
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                     />
